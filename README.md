@@ -97,6 +97,7 @@ At scale, data platforms struggle with:
 
 ## Repository Structure
 
+```
 finops-control-plane/
 ├── src/
 │ ├── finops/
@@ -120,8 +121,7 @@ finops-control-plane/
 ├── config.yaml
 ├── requirements.txt
 └── README.md
-
-
+```
 
 ---
 
@@ -205,3 +205,31 @@ print(summary)
 
 ```
 
+### Streaming Cost Ingestion
+
+```python
+from finops.streaming_cost_ingestor import StreamingCostIngestor
+
+ingestor = StreamingCostIngestor(
+    job_budget_usd=100.0,
+    anomaly_threshold_pct=150,
+    cost_center="SBE",
+)
+
+summary = ingestor.ingest_event(
+    {
+        "platform": "databricks",
+        "estimated_cost_usd": 5.5,
+    }
+)
+
+print(summary)
+```
+
+### Running Locally
+
+```
+cd repo-1-finops-control-plane
+export PYTHONPATH=src
+python -c "from finops.finops_orchestrator import FinOpsOrchestrator; print('OK')"
+```
